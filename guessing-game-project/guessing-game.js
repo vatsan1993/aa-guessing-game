@@ -1,4 +1,5 @@
 // importing readline
+const { log } = require('node:console');
 const readline = require('node:readline');
 // creating interface to read  and write.
 const rl = readline.createInterface({
@@ -13,6 +14,7 @@ const randomInRange = (min, max) => {
 };
 
 let secretNumber = randomInRange(0, 100);
+let numberOfTurns = 5;
 
 const checkGuess = (guess) => {
   if (guess > secretNumber) {
@@ -28,10 +30,21 @@ const checkGuess = (guess) => {
 };
 
 const askGuess = () => {
+  if (numberOfTurns <= 0) {
+    console.log('You Lose');
+    rl.close();
+    return;
+  }
+  numberOfTurns--;
   rl.question('Enter a guess: ', (answer) => {
     answer = Number(answer);
-    checkGuess(answer);
-    rl.close();
+    let result = checkGuess(answer);
+    if (result == true) {
+      log('YOU WON');
+      rl.close();
+    } else if (numberOfTurns >= 0) {
+      askGuess();
+    }
   });
 };
 // Enter a max number: *20*
@@ -40,9 +53,23 @@ const askGuess = () => {
 const askRange = () => {
   rl.question('Enter a max number: ', (max) => {
     rl.question('Enter a min number: ', (min) => {
+      max = Number(max);
+      min = Number(min);
+      secretNumber = randomInRange(min, max);
       console.log(`I'm thinking of a number between ${min} and ${max}...`);
+      askTurns();
     });
   });
+};
+
+const askTurns = () => {
+  rl.question('How many turns you want to play? ', (answer) => {
+    numberOfTurns = answer;
+    askGuess();
+  });
+};
+const main = () => {
+  askRange();
 };
 
 // console.log(checkGuess(30));
@@ -59,4 +86,4 @@ const askRange = () => {
 // console.log(randomInRange(5, 8));
 
 // askGuess();
-askRange();
+main();
