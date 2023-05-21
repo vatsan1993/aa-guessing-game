@@ -1,12 +1,18 @@
-// importing readline
-const readline = require('node:readline');
-// creating interface to read  and write.
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+// // importing readline
+// const readline = require('node:readline');
+// // creating interface to read  and write.
+// const rl = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout,
+// });
 
 let secretNumber = 10;
+
+const randomInRange = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
 
 const checkGuess = (guess) => {
   if (guess > secretNumber) {
@@ -37,4 +43,8 @@ const askGuess = () => {
 // console.log(checkGuess(5));
 // console.log(checkGuess(10));
 
-askGuess();
+// askGuess();
+console.log(randomInRange(5, 10));
+console.log(randomInRange(4, 6));
+console.log(randomInRange(5, 7));
+console.log(randomInRange(5, 8));
